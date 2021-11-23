@@ -1,0 +1,266 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\usepackage{textcomp}
+
+% \mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.25\hsize}X}
+\newcolumntype{a}{>{\hsize=.5\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.3cm}
+\setlength{\parindent}{1cm}
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\B enjamin Kong | 1573684}
+\lhead{\textit{ECE 322 Assignment 4}}
+\rfoot{Page \thepage}
+
+\begin{document} 
+\onehalfspacing
+
+\section*{Q1}
+We know
+\begin{equation}
+    p_j = \sum_{i=1}^{n}p_{ij}p_i, \quad j = 1,2,\ldots,n.
+\end{equation}
+From the figure, we have
+\begin{align}
+    p_\text{A} &= 0.8p_\text{H}, \\
+    p_\text{B} &= 0.7p_\text{A} + 0.5p_\text{E}, \\
+    p_\text{C} &= 1.0p_\text{B} + 0.7p_\text{D}, \\
+    p_\text{D} &= 0.5p_\text{E}, \\
+    p_\text{E} &= 0.3p_\text{A}, \\
+    p_\text{F} &= 0.6p_\text{C}, \\
+    p_\text{G} &= 0.4p_\text{C} + 1.0p_\text{F} + 0.2p_\text{H} \text{, and} \\
+    p_\text{H} &= 0.3p_\text{D}+ 1.0p_\text{G}.
+\end{align}
+We also have
+\begin{equation}
+    p_\text{A} +
+    p_\text{B} +
+    p_\text{C} +
+    p_\text{D} +
+    p_\text{E} +
+    p_\text{F} +
+    p_\text{G} +
+    p_\text{H} = 1.
+\end{equation}
+With the aforementioned equations, we have a systems of equation that we can solve. Using software to solve these systems of equations, we get 
+\begin{align}
+    p_\text{A} &\approx 0.1592, \\
+    p_\text{B} &\approx 0.1353, \\
+    p_\text{C} &\approx 0.1520, \\
+    p_\text{D} &\approx 0.0239, \\
+    p_\text{E} &\approx 0.0477, \\
+    p_\text{F} &\approx 0.0912, \\
+    p_\text{G} &\approx 0.1918 \text{, and} \\
+    p_\text{H} &\approx 0.0199.
+\end{align}
+Therefore we conclude the priority for testing should be
+\begin{equation}
+    \text{H} > \text{G} > \text{A} > \text{C} > \text{B} > \text{F} > \text{E} > \text{D}.
+\end{equation}
+
+\section*{Q2}
+\subsection*{i)}
+When the functional dependencies among the input and output variables is not known, we have 
+\begin{align}
+    \text{\#Test cases} &= \#A \times \#B \times \#C \times \#D \times \#E \times \#F \\
+    &= 5 \times 5  \times 3 \times 5 \times 2 \times 3 \\
+    &= 2250.
+\end{align}
+
+\subsection*{ii)}
+When the functional dependencies among the input and output variables is known, we have 
+\begin{align}
+    \text{\#Test cases} &= \#X + \#Y + \#Z \\
+    &= (\#A \times \#D \times \#E) + (\#B) + (\#C \times \#F) \\
+    &= (5 \times 5 \times 2) + (5) + (3 \times 3) \\
+    &= 64.
+\end{align}
+Example test cases are shown below. ``N/A'' represents an entry that can be anything.
+
+\begin{centering}
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+    \caption{Test cases for output X} \\ \hline
+    \textbf{Test case} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} & \textbf{F} \\ \hline
+    1 & 0 & N/A & N/A & 7 & Y & N/A \\ \hline
+    2 & 0 & N/A & N/A & 7 & N & N/A \\ \hline
+    3 & 0 & N/A & N/A & 8 & Y & N/A \\ \hline
+    4 & 0 & N/A & N/A & 8 & N & N/A \\ \hline
+    5 & 0 & N/A & N/A & 9 & Y & N/A \\ \hline
+    6 & 0 & N/A & N/A & 9 & N & N/A \\ \hline
+    7 & 0 & N/A & N/A & 10 & Y & N/A \\ \hline
+    8 & 0 & N/A & N/A & 10 & N & N/A \\ \hline
+    9 & 0 & N/A & N/A & 11 & Y & N/A \\ \hline
+    10 & 0 & N/A & N/A & 11 & N & N/A \\ \hline
+    11 & 1 & N/A & N/A & 7 & Y & N/A \\ \hline
+    12 & 1 & N/A & N/A & 7 & N & N/A \\ \hline
+    13 & 1 & N/A & N/A & 8 & Y & N/A \\ \hline
+    14 & 1 & N/A & N/A & 8 & N & N/A \\ \hline
+    15 & 1 & N/A & N/A & 9 & Y & N/A \\ \hline
+    16 & 1 & N/A & N/A & 9 & N & N/A \\ \hline
+    17 & 1 & N/A & N/A & 10 & Y & N/A \\ \hline
+    18 & 1 & N/A & N/A & 10 & N & N/A \\ \hline
+    19 & 1 & N/A & N/A & 11 & Y & N/A \\ \hline
+    20 & 1 & N/A & N/A & 11 & N & N/A \\ \hline
+    21 & 2 & N/A & N/A & 7 & Y & N/A \\ \hline
+    22 & 2 & N/A & N/A & 7 & N & N/A \\ \hline
+    23 & 2 & N/A & N/A & 8 & Y & N/A \\ \hline
+    24 & 2 & N/A & N/A & 8 & N & N/A \\ \hline
+    25 & 2 & N/A & N/A & 9 & Y & N/A \\ \hline
+    26 & 2 & N/A & N/A & 9 & N & N/A \\ \hline
+    27 & 2 & N/A & N/A & 10 & Y & N/A \\ \hline
+    28 & 2 & N/A & N/A & 10 & N & N/A \\ \hline
+    29 & 2 & N/A & N/A & 11 & Y & N/A \\ \hline
+    30 & 2 & N/A & N/A & 11 & N & N/A \\ \hline
+    31 & 3 & N/A & N/A & 7 & Y & N/A \\ \hline
+    32 & 3 & N/A & N/A & 7 & N & N/A \\ \hline
+    33 & 3 & N/A & N/A & 8 & Y & N/A \\ \hline
+    34 & 3 & N/A & N/A & 8 & N & N/A \\ \hline
+    35 & 3 & N/A & N/A & 9 & Y & N/A \\ \hline
+    36 & 3 & N/A & N/A & 9 & N & N/A \\ \hline
+    37 & 3 & N/A & N/A & 10 & Y & N/A \\ \hline
+    38 & 3 & N/A & N/A & 10 & N & N/A \\ \hline
+    39 & 3 & N/A & N/A & 11 & Y & N/A \\ \hline
+    40 & 3 & N/A & N/A & 11 & N & N/A \\ \hline
+    41 & 4 & N/A & N/A & 7 & Y & N/A \\ \hline
+    42 & 4 & N/A & N/A & 7 & N & N/A \\ \hline
+    43 & 4 & N/A & N/A & 8 & Y & N/A \\ \hline
+    44 & 4 & N/A & N/A & 8 & N & N/A \\ \hline
+    45 & 4 & N/A & N/A & 9 & Y & N/A \\ \hline
+    46 & 4 & N/A & N/A & 9 & N & N/A \\ \hline
+    47 & 4 & N/A & N/A & 10 & Y & N/A \\ \hline
+    48 & 4 & N/A & N/A & 10 & N & N/A \\ \hline
+    49 & 4 & N/A & N/A & 11 & Y & N/A \\ \hline
+    50 & 4 & N/A & N/A & 11 & N & N/A \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+    \caption{Test cases for output Y} \\ \hline
+    \textbf{Test case} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} & \textbf{F} \\ \hline
+    51 & N/A & A & N/A & N/A & N/A & N/A \\ \hline
+    52 & N/A & B & N/A & N/A & N/A & N/A \\ \hline
+    53 & N/A & C & N/A & N/A & N/A & N/A \\ \hline
+    54 & N/A & D & N/A & N/A & N/A & N/A \\ \hline
+    55 & N/A & E & N/A & N/A & N/A & N/A \\ \hline
+\end{tabularx}
+
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+    \caption{Test cases for output Z} \\ \hline
+    \textbf{Test case} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} & \textbf{F} \\ \hline
+    56 & N/A & N/A & 100 & N/A & N/A & $\alpha$ \\ \hline
+    57 & N/A & N/A & 100 & N/A & N/A & $\beta$ \\ \hline
+    58 & N/A & N/A & 100 & N/A & N/A & $\gamma$ \\ \hline
+    59 & N/A & N/A & 200 & N/A & N/A & $\alpha$ \\ \hline
+    60 & N/A & N/A & 200 & N/A & N/A & $\beta$ \\ \hline
+    61 & N/A & N/A & 200 & N/A & N/A & $\gamma$ \\ \hline
+    62 & N/A & N/A & 300 & N/A & N/A & $\alpha$ \\ \hline
+    63 & N/A & N/A & 300 & N/A & N/A & $\beta$ \\ \hline
+    64 & N/A & N/A & 300 & N/A & N/A & $\gamma$ \\ \hline
+\end{tabularx}
+\end{centering}
+
+\section*{Q3}
+If we wanted to test all combinations using combinatorial testing, we would have 
+\begin{align}
+    \text{\#Test cases} &= 3 \times 3 \times 4 \times 3 \times 5 \times 4 \times 4 \times 5 \times 4 \\
+    &= 172800.
+\end{align}
+Next, we wrote a Python script to automate generating the pairwise test cases. The result is shown below.
+
+\scriptsize
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|X|X|X|}
+    \caption{Results from Python using pairwise testing} \\ \hline
+    \textbf{\#} & \textbf{HKBH} & \textbf{KBH} & \textbf{KB} & \textbf{NVH} & \textbf{NV} & \textbf{OR} & \textbf{SLL} & \textbf{SLS} & \textbf{TS} \\ \hline
+    1 & NO & NO & 12KEY & NO & DPAD & LAND & MASK & LRG & FNGR \\ \hline
+    2 & NDEF & NDEF & NOKEYS & NDEF & NONAV & PORT & NO & MASK & FNGR \\ \hline
+    3 & YES & YES & QWERTY & YES & TRKBALL & SQR & NDEF & NORM & FNGR \\ \hline
+    4 & YES & NDEF & NDEF & NO & NDEF & NDEF & YES & SML & NTOUCH \\ \hline
+    5 & NDEF & NO & NDEF & YES & WHEEL & NDEF & NDEF & NDEF & STYLUS \\ \hline
+    6 & NO & YES & NOKEYS & NDEF & WHEEL & SQR & YES & NDEF & NDEF \\ \hline
+    7 & NO & NDEF & QWERTY & YES & NDEF & LAND & NO & LRG & NDEF \\ \hline
+    8 & NDEF & YES & 12KEY & NO & NONAV & SQR & MASK & SML & STYLUS \\ \hline
+    9 & YES & NO & NOKEYS & NDEF & TRKBALL & LAND & MASK & MASK & NTOUCH \\ \hline
+    10 & NO & NO & QWERTY & NO & NONAV & PORT & YES & NORM & NTOUCH \\ \hline
+    11 & YES & YES & 12KEY & YES & DPAD & PORT & NO & NDEF & NTOUCH \\ \hline
+    12 & NDEF & NDEF & 12KEY & NDEF & DPAD & NDEF & NDEF & NORM & NDEF \\ \hline
+    13 & NDEF & NDEF & QWERTY & NDEF & WHEEL & LAND & MASK & SML & STYLUS \\ \hline
+    14 & NO & YES & NDEF & NDEF & NDEF & PORT & NDEF & LRG & STYLUS \\ \hline
+    15 & NDEF & NO & NDEF & NO & TRKBALL & SQR & NO & SML & NDEF \\ \hline
+    16 & YES & YES & NOKEYS & YES & NONAV & NDEF & NDEF & MASK & NDEF \\ \hline
+    17 & NDEF & NDEF & NOKEYS & NO & NDEF & SQR & YES & LRG & NTOUCH \\ \hline
+    18 & NO & NDEF & NDEF & NO & TRKBALL & NDEF & MASK & NDEF & FNGR \\ \hline
+    19 & YES & YES & NDEF & NO & WHEEL & LAND & NDEF & NORM & NTOUCH \\ \hline
+    20 & YES & NO & 12KEY & YES & NDEF & PORT & MASK & NORM & NDEF \\ \hline
+    21 & YES & YES & 12KEY & YES & WHEEL & PORT & YES & MASK & STYLUS \\ \hline
+    22 & NO & YES & NOKEYS & NO & DPAD & SQR & YES & MASK & STYLUS \\ \hline
+    23 & YES & YES & QWERTY & YES & DPAD & NDEF & NO & SML & STYLUS \\ \hline
+    24 & YES & YES & NDEF & NO & NONAV & LAND & YES & NDEF & FNGR \\ \hline
+    25 & YES & YES & NDEF & NO & DPAD & NDEF & NDEF & LRG & STYLUS \\ \hline
+    26 & NO & YES & NOKEYS & NO & TRKBALL & PORT & YES & SML & STYLUS \\ \hline
+    27 & YES & YES & QWERTY & NO & WHEEL & PORT & NO & NORM & STYLUS \\ \hline
+    28 & YES & YES & QWERTY & NO & NDEF & PORT & NDEF & NDEF & FNGR \\ \hline
+    29 & YES & YES & NDEF & NO & WHEEL & PORT & NDEF & SML & FNGR \\ \hline
+    30 & YES & YES & NDEF & NO & WHEEL & PORT & NDEF & MASK & STYLUS \\ \hline
+    31 & YES & YES & QWERTY & NO & WHEEL & PORT & NDEF & MASK & STYLUS \\ \hline
+    32 & YES & YES & NOKEYS & NO & WHEEL & PORT & NDEF & NORM & STYLUS \\ \hline
+    33 & YES & YES & 12KEY & NO & TRKBALL & PORT & NDEF & LRG & STYLUS \\ \hline
+    34 & YES & YES & NDEF & NO & WHEEL & PORT & NDEF & LRG & STYLUS \\ \hline
+    35 & YES & YES & NDEF & NO & NDEF & PORT & NDEF & MASK & STYLUS \\ \hline
+    36 & YES & YES & NDEF & NO & NONAV & PORT & NDEF & LRG & STYLUS \\ \hline
+\end{tabularx}
+\normalsize
+
+As we can see from the above table, we have 36 test cases from pairwise testing. This is significantly less than the 172800 cases from combinatorial testing.
+
+\section*{Q4}
+The grammar can be tested with a single test case. An example of such a test case is
+\begin{equation}
+    abcdefghijklmnopqrstuvwxyz + A - 1 * B / CDEFGHIJKLMNOPQRSTUVWXYZ. 
+\end{equation}
+
+\subsection*{i)}
+We have 4 different operators, 52 different letters, and 10 different digits. This means we have $4 + 52 + 10 = 66$ possible symbols. 
+
+\subsection*{ii)}
+\textlangle{}expr\textrangle{} has 3 permutations, \textlangle{}id\textrangle{} has 2 permutations, and \textlangle{}num\textrangle{} has 2 permutations. This means we have $3 + 2 + 2 + 66 = 73$ cases for production coverage.
+
+\subsection*{iii)}
+We can't perform derivation coverage because \textlangle{}id\textrangle{}::=\textlangle{}letter\textrangle{}$|$\textlangle{}letter\textrangle{}\textlangle{}id\textrangle{} leads to infinite tests.
+
+\end{document}

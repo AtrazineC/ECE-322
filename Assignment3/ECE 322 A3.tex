@@ -1,0 +1,282 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+
+\mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.25\hsize}X}
+\newcolumntype{a}{>{\hsize=.5\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.3cm}
+\setlength{\parindent}{1cm}
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\B enjamin Kong | 1573684}
+\lhead{\textit{ECE 322 Assignment 3}}
+\rfoot{Page \thepage}
+
+\begin{document} 
+\onehalfspacing
+
+\section*{Q1}
+Coincidental correctness arises when a defect is executed and the program has transitioned into an infectious state. It is when a test point follows an incorrect path, but still produces the same output by coincidence. 
+
+For example, let's take $\cos(2x)$. If we input $x = 2\pi$, we expect to get 1. However, if we mistakenly programmed the implementation of $\cos(2x)$ to be equivalent $\cos(4x)$, we'd still get the correct result given $x = 2\pi$, even though we'd see we had implemented $\cos(2x)$ incorrectly with a different value of $x$.
+
+\section*{Q2}
+\subsection*{a)}
+Let
+\begin{itemize}
+    \item $a$ represent $\text{age}<25$,
+    \item $b$ represent $25\leq\text{age}\leq65$, and
+    \item $c$ represent $\text{age}>65$.
+\end{itemize}
+Since there are 2 possibilities for gender, two possibilities for city dwelling, and three possibilities for age group, the maximal number of rules is $2\times2\times3=12$.
+
+\begin{centering}
+\begin{tabularx}{\textwidth}{|X|s|s|s|s|s|s|s|s|s|s|s|s|}
+    \hline
+    \textbf{Rule} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} & \textbf{10} & \textbf{11} & \textbf{12} \\
+    \hline
+    Gender & M & M & M & M & M & M & F & F & F & F & F & F \\
+    \hline
+    City & Y & Y & Y & N & N & N & Y & Y & Y & N & N & N \\
+    \hline
+    Age group & a&b&c&a&b&c&a&b&c&a&b&c \\
+    \hline
+    A &$\bigstar$&$\bigstar$&$\bigstar$ &&& &&& &&& \\
+    \hline
+    B &$\bigstar$&& &$\bigstar$&& &&& &&& \\
+    \hline
+    C &&& &&& &&& &$\bigstar$&& \\
+    \hline
+    D &$\bigstar$&$\bigstar$& &$\bigstar$&$\bigstar$& &$\bigstar$&$\bigstar$&$\bigstar$ &$\bigstar$&$\bigstar$&$\bigstar$ \\
+    \hline
+\end{tabularx}
+\end{centering}
+
+\subsection*{b)}
+Rules 7, 8, and 9 are equivalent and differ only in the age group. These can be combined into a single rule (rule \#7). Furthermore, rules 11 and 12 can be combined into rule \#7 as well.
+
+\begin{centering}
+\begin{tabularx}{\textwidth}{|X|s|s|s|s|s|s|s|s|}
+    \hline
+    \textbf{Rule} & \textbf{1} & \textbf{2} & \textbf{3} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} \\
+    \hline
+    Gender & M & M & M & M & M & M & F & F \\
+    \hline
+    City & Y & Y & Y & N & N & N & - & N \\
+    \hline
+    Age group & a&b&c&a&b&c&-&a \\
+    \hline
+    A &$\bigstar$&$\bigstar$&$\bigstar$ &&& & & \\
+    \hline
+    B &$\bigstar$&& &$\bigstar$&& & & \\
+    \hline
+    C &&& &&& & &$\bigstar$ \\
+    \hline
+    D &$\bigstar$&$\bigstar$& &$\bigstar$&$\bigstar$& &$\bigstar$ &$\bigstar$ \\
+    \hline
+\end{tabularx}
+\end{centering}
+
+\section*{Q3}
+Based on the equations, for the EPC tests, we ascertain
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|a|a|X|}
+    \hline
+    \textbf{Variable} & Slightly over max & Max & Min & Slightly under min \\
+    \hline
+    $x$ & 9 & 8 & 1 & 0 \\
+    \hline
+    $y$ & 7 & 6 & -1 & -2 \\
+    \hline
+    $z$ & 7 & 6 & 0 & -1 \\
+    \hline
+\end{tabularx}
+
+These are all the EPC test cases:
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|a|a|a|X|}
+    \hline
+    \textbf{TestID} & \textbf{Desc.} & $x$ & $y$ & $z$ & \textbf{Expected} \\
+    \hline
+    1 & Valid case & 4 & 4 & 4 & In domain \\
+    2 & EPC case & 9 & 7 & 7 & Out of domain \\
+    3 & EPC case & 9 & 7 & 6 & Out of domain \\
+    4 & EPC case & 9 & 7 & 0 & Out of domain \\
+    5 & EPC case & 9 & 7 & -1 & Out of domain \\
+    6 & EPC case & 9 & 6 & 7 & Out of domain \\
+    7 & EPC case & 9 & 6 & 6 & Out of domain \\
+    8 & EPC case & 9 & 6 & 0 & Out of domain \\
+    9 & EPC case & 9 & 6 & -1 & Out of domain \\
+    10 & EPC case & 9 & -1 & 7 & Out of domain \\
+    11 & EPC case & 9 & -1 & 6 & Out of domain \\
+    12 & EPC case & 9 & -1 & 0 & Out of domain \\
+    13 & EPC case & 9 & -1 & -1 & Out of domain \\
+    14 & EPC case & 9 & -2 & 7 & Out of domain \\
+    15 & EPC case & 9 & -2 & 6 & Out of domain \\
+    16 & EPC case & 9 & -2 & 0 & Out of domain \\
+    17 & EPC case & 9 & -2 & -1 & Out of domain \\
+    18 & EPC case & 8 & 7 & 7 & Out of domain \\
+    19 & EPC case & 8 & 7 & 6 & Out of domain \\
+    20 & EPC case & 8 & 7 & 0 & Out of domain \\
+    21 & EPC case & 8 & 7 & -1 & Out of domain \\
+    22 & EPC case & 8 & 6 & 7 & Out of domain \\
+    23 & EPC case & 8 & 6 & 6 & Out of domain \\
+    24 & EPC case & 8 & 6 & 0 & Out of domain \\
+    25 & EPC case & 8 & 6 & -1 & Out of domain \\
+    26 & EPC case & 8 & -1 & 7 & Out of domain \\
+    27 & EPC case & 8 & -1 & 6 & Out of domain \\
+    28 & EPC case & 8 & -1 & 0 & Out of domain \\
+    29 & EPC case & 8 & -1 & -1 & Out of domain \\
+    30 & EPC case & 8 & -2 & 7 & Out of domain \\
+    31 & EPC case & 8 & -2 & 6 & Out of domain \\
+    32 & EPC case & 8 & -2 & 0 & Out of domain \\
+    33 & EPC case & 8 & -2 & -1 & Out of domain \\
+    34 & EPC case & 1 & 7 & 7 & Out of domain \\
+    35 & EPC case & 1 & 7 & 6 & Out of domain \\
+    36 & EPC case & 1 & 7 & 0 & Out of domain \\
+    37 & EPC case & 1 & 7 & -1 & Out of domain \\
+    38 & EPC case & 1 & 6 & 7 & Out of domain \\
+    39 & EPC case & 1 & 6 & 6 & Out of domain \\
+    40 & EPC case & 1 & 6 & 0 & Out of domain \\
+    41 & EPC case & 1 & 6 & -1 & Out of domain \\
+    42 & EPC case & 1 & -1 & 7 & Out of domain \\
+    43 & EPC case & 1 & -1 & 6 & Out of domain \\
+    44 & EPC case & 1 & -1 & 0 & Out of domain \\
+    45 & EPC case & 1 & -1 & -1 & Out of domain \\
+    46 & EPC case & 1 & -2 & 7 & Out of domain \\
+    47 & EPC case & 1 & -2 & 6 & Out of domain \\
+    48 & EPC case & 1 & -2 & 0 & Out of domain \\
+    49 & EPC case & 1 & -2 & -1 & Out of domain \\
+    50 & EPC case & 0 & 7 & 7 & Out of domain \\
+    51 & EPC case & 0 & 7 & 6 & Out of domain \\
+    52 & EPC case & 0 & 7 & 0 & Out of domain \\
+    53 & EPC case & 0 & 7 & -1 & Out of domain \\
+    54 & EPC case & 0 & 6 & 7 & Out of domain \\
+    55 & EPC case & 0 & 6 & 6 & Out of domain \\
+    56 & EPC case & 0 & 6 & 0 & Out of domain \\
+    57 & EPC case & 0 & 6 & -1 & Out of domain \\
+    58 & EPC case & 0 & -1 & 7 & Out of domain \\
+    59 & EPC case & 0 & -1 & 6 & Out of domain \\
+    60 & EPC case & 0 & -1 & 0 & Out of domain \\
+    61 & EPC case & 0 & -1 & -1 & Out of domain \\
+    62 & EPC case & 0 & -2 & 7 & Out of domain \\
+    63 & EPC case & 0 & -2 & 6 & Out of domain \\
+    64 & EPC case & 0 & -2 & 0 & Out of domain \\
+    65 & EPC case & 0 & -2 & -1 & Out of domain \\
+    \hline
+\end{tabularx}
+
+For the weak $n\times1$ testing, the $x+y\geq0$ boundary can be ignored since it is outside of the domain. Hence, we will have 5 boundaries which means we will have $(3+1)\times 5 + 1 = 26$ test cases.
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|a|a|a|X|}
+    \hline
+    \textbf{TestID} & \textbf{Desc.} & $x$ & $y$ & $z$ & \textbf{Expected} \\
+    \hline
+    1 & Test case in domain & 4 & 4 & 4 & In domain \\
+    \hline
+    2 & y \textless 6 & 1 & 6 & 1 & Outside domain \\
+    3 & y \textless 6 & 2 & 6 & 2 & Outside domain \\
+    4 & y \textless 6 & 3 & 6 & 3 & Outside domain \\
+    5 & y \textless 6 & 4 & 6 & 4 & Outside domain \\
+    6 & just outside y \textless 6 & 5 & 5.5 & 5 & In domain \\
+    \hline
+    7 & x - y - 2 \textless{}= 0 & 9 & 7 & 1 & In domain \\
+    8 & x - y - 2 \textless{}= 0 & 7 & 5 & 2 & In domain \\
+    9 & x - y - 2 \textless{}= 0 & 5 & 3 & 3 & In domain \\
+    10 & x - y - 2 \textless{}= 0 & 3 & 1 & 4 & In domain \\
+    11 & just outside x - y - 2 \textless{}= 0 & 3 & 0.5 & 5 & Outside domain \\
+    \hline
+    12 & x \textgreater 1 & 1 & 1 & 1 & Outside domain \\
+    13 & x \textgreater 1 & 1 & 2 & 2 & Outside domain \\
+    14 & x \textgreater 1 & 1 & 3 & 3 & Outside domain \\
+    15 & x \textgreater 1 & 1 & 4 & 4 & Outside domain \\
+    16 & just outside x \textgreater 1 & 0.5 & 5 & 5 & In domain \\
+    \hline
+    17 & z \textgreater 0 & 1 & 1 & 0 & Outside domain \\
+    18 & z \textgreater 0 & 2 & 2 & 0 & Outside domain \\
+    19 & z \textgreater 0 & 3 & 3 & 0 & Outside domain \\
+    20 & z \textgreater 0 & 4 & 4 & 0 & Outside domain \\
+    21 & just outside z \textgreater 0 & 5 & 5 & -0.5 & In domain \\
+    \hline
+    22 & z \textless 6 & 1 & 1 & 6 & Outside domain \\
+    23 & z \textless 6 & 2 & 2 & 6 & Outside domain \\
+    24 & z \textless 6 & 3 & 3 & 6 & Outside domain \\
+    25 & z \textless 6 & 4 & 4 & 6 & Outside domain \\
+    26 & just outside z \textless 6 & 5 & 5 & 6.5 & In domain \\
+    \hline
+\end{tabularx}
+
+For the subdomain with four variables, you would need $4^4+1 = 257$ test cases.
+
+\section*{Q4}
+The quadratic equation is hard to test for both EPC and weak $n\times1$ strategies. This is because the boundary is not linear.
+
+For EPC testing, because the input domain is unbounded for all inputs ($a$, $b$, $c$, and $x$), it is very difficult to test. If we were to bound the inputs, it would be more feasible.
+
+For weak $n\times1$ testing, this is again not very easy because the boundary is not linear. In order to test it with any reasonable accuracy, we would need many subdivisions.
+
+\section*{Q5}
+We have
+\begin{align}
+    P(f_1) &= (0.5)(0.3)(0.0) + (0.5)(0.7)(0.1) + (0.1)(0.6)(0.5) + (0.1)(0.4)(0.1) \\ 
+            &+ (0.4)(0.7)(0.1) + (0.4)(0.3)(0.0) \\
+    &= 0.097,
+\end{align}
+\begin{align}
+    P(f_2) &= (0.5)(0.3)(0.3) + (0.5)(0.7)(0.1) + (0.1)(0.6)(0.1) + (0.1)(0.4)(0.9) \\ 
+            &+ (0.4)(0.7)(0.3) + (0.4)(0.3)(0.8) \\
+    &= 0.302,
+\end{align}
+\begin{align}
+    P(f_3) &= (0.5)(0.3)(0.5) + (0.5)(0.7)(0.3) + (0.1)(0.6)(0.0) + (0.1)(0.4)(0.0) \\ 
+            &+ (0.4)(0.7)(0.2) + (0.4)(0.3)(0.0) \\
+    &= 0.236,
+\end{align}
+and
+\begin{align}
+    P(f_4) &= (0.5)(0.3)(0.2) + (0.5)(0.7)(0.5) + (0.1)(0.6)(0.4) + (0.1)(0.4)(0.0) \\ 
+            &+ (0.4)(0.7)(0.4) + (0.4)(0.3)(0.2) \\
+    &= 0.365.
+\end{align}
+Therefore, the priority we should follow is $f_4 > f_2 > f_3 > f_1$.
+
+\end{document}

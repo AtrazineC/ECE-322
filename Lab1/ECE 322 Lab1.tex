@@ -1,0 +1,238 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic,colortbl} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\usepackage{xurl}
+
+\mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+
+\newcolumntype{b}{X}
+\newcolumntype{q}{>{\hsize=.65\hsize}X}
+\newcolumntype{s}{>{\hsize=.4\hsize}X}
+\newcolumntype{z}{>{\hsize=.15\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.5cm}
+\setlength{\parindent}{1cm}
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+
+\title{\textbf{\Huge{
+    \begin{center}
+        ECE 322 Lab Report \#1
+    \end{center}
+}}}
+\author{
+\B enjamin Kong \\
+1573684 \\
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{\textit{ECE 322 Lab Report \#1}}
+
+\begin{document} 
+\onehalfspacing
+
+\maketitle
+\newpage
+
+\section*{Introduction}
+The purpose of this lab was to introduce \B lack-box testing techniques by applying various \B lack-box testing methods such as dirty testing, error guessing, and partition testing. 
+
+\B lack-box testing is a method of software testing that examines a program without knowledge of the internal workings. In this lab, we focus on three \B lack-box testing methods: 
+\begin{itemize}
+    \item Dirty testing: Testing a component or system in a way that it was not designed to be used,
+    \item Error guessing: Deriving test cases from experience (such as divide by zero) to find errors in the program, and
+    \item Partition testing: Divide the input data into partitions from which we can derive test cases to test each partition in order to cover as many scenarios with as few test cases as possible.
+\end{itemize}
+
+\section*{Part 1 | Calculator Program}
+\subsection*{Q1}
+In part 1, we are testing a simple calculator program. This calculator has basic functions such as addition, subtraction, multiplication, and division. We will be testing the correctness of the calculator (i.e. testing if we get the expected output for a variety of inputs), testing invalid inputs, extremely large numbers, and incorrect syntax.
+
+\subsection*{Q2}
+To test the calculator, we will be using dirty testing and error guessing in order to try and find errors in the calculator program (see the table in Q4 to see the test cases). Dirty testing involves testing a program in a way it was not designed to be used. It's good to see if the program handles errors correctly. For example,
+\begin{itemize}
+    \item Huge number: In test 3, we enter an enormous number into the calculator. The calculator errors. This is likely because the calculator cannot handle large numbers correctly.
+    \item Invalid syntax: In test case 7, we expect that 5\textasciicircum{}\textasciicircum{}3 returns NaN. However, it returns 1. This may be because the program assumes we want to do 5\textasciicircum{}0\textasciicircum{}3, which would return 1.
+    \item Invalid syntax: In test case 8, we have a space between the numbers and the operator. We would expect this to return 495; however, the program returns NaN. This may be because the program doesn't handle spaces correctly.
+    \item Invalid syntax: In test case 10, we have 5(2). The calculator seems to not interpret this as us wanting to do $5\times2$.
+    \item Invalid syntax: In test case 11, we have two negative signs between two numbers. Normally, we would expect this to mean 1-(-1). However, the calculator errors. This may be because the calculator doesn't correctly handle two operators between two numbers.
+\end{itemize}
+Error guessing involves trying to guess where an error will occur based on experience as a programmer. This is good to see if the program handles edge cases correctly. For example,
+\begin{itemize}
+    \item Order of operations: we expect the program to follow order of operations. As seen in test 18, however, the calculator subtracts 8 from 64 before squaring the result. This is incorrect, as the calculator should square 8 and subtract there result from 64. This may be because the calculator doesn't handle all \B EDMAS cases correctly.
+\end{itemize}
+
+\subsection*{Q3}
+While we were able to find many errors with our program, we certainly did not find all the errors of the program. This is because it is hard to cover all scenarios with \B lack-box testing as we don't know the inner workings of the program. Dirty testing and error guessing depend on the tester's experience and creativity; this can result in missed scenarios as it requires a lot of experience and effort to come up with unusual test cases that may break the program.
+
+\subsection*{Q4}
+Test case table. The rows highlighted in red represent test cases that failed.
+\begin{tabularx}{\textwidth}{|X|X|X|X|}
+    \hline
+    \textbf{TestID} & \textbf{Input Desc.} & \textbf{Expected} & \textbf{Actual} \\
+    \hline
+    1 & 0+1 & 1 & 1 \\
+    \hline
+    2 & 1+1 & 2 & 2 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    3 & 3\textasciicircum{}400 & 7.06E+190 & NaN \\
+    \hline
+    4 & NaN+NaN & NaN & NaN \\
+    \hline
+    5 & NaN+2 & NaN & NaN \\
+    \hline
+    6 & Entering nothing &  & 0 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    7 & 5\textasciicircum{}\textasciicircum{}3 & NaN & 1 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    8 & 500 - 5 & 495 & NaN \\
+    \hline
+    9 & 5 \textasciicircum 2 & 25 & 25 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    10 & 5(2) & 10 & 52 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    11 & 1$--$1 & 2 & NaN \\
+    \hline
+    12 & 5*(2) & 10 & 10 \\
+    \hline
+    13 & 2/5 & 0.4 & 0.4 \\
+    \hline
+    14 & 10+10 & 20 & 20 \\
+    \hline
+    15 & 3+3/10 & 3.3 & 3.3 \\
+    \hline
+    16 & 9+9.9 & 18.9 & 18.9 \\
+    \hline
+    17 & 8\textasciicircum{}(1+1) & 64 & 64 \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    18 & 64-8\textasciicircum{}2 & 0 & 3136 \\
+    \hline
+    19 & 2+2+2 & 6 & 6 \\
+    \hline
+    20 & (2*(3+5)) & 16 & 16 \\
+    \hline
+    21 & 16\textasciicircum{}0.5 & 4 & 4 \\
+    \hline
+    22 & 100*100/100 & 100 & 100 \\
+    \hline
+    23 & 5/6- & NaN & NaN \\
+    \hline
+    24 & 0.1+0.2 & 0.3 & 0.3 \\
+    \hline
+    25 & 9/10 & 0.9 & 0.9 \\
+    \hline
+ \end{tabularx}
+
+\section*{Part 2 | Triangle Classification Program}
+\subsection*{Q1}
+The program takes in three inputs, $a$, $b$, and $c$. These represent the side lengths of a triangle. The program takes in these inputs and returns the type of triangle that would be formed from a triangle with the given side lengths: isosceles, scalene, or equilateral. If invalid input is entered, the program should return an error message. 
+
+For this program, we will be employing partition testing. Partition testing involves partitioning the input space in order to reduce the number of test cases. Test cases are selected in such a way that all equivalence classes are covered. Equivalence classes are set of inputs we believe will cause the system to behave identically (ex. for an addition program, two positive numbers would form an equivalence class).
+
+\subsection*{Q2}
+Triangle Equivalence Classes 
+\begin{tabularx}{\textwidth}{|q|b|b|}
+    \hline
+    \textbf{Input Condition} & \textbf{Valid Equiv. Classes} & \textbf{Invalid Equiv. Classes} \\
+    \hline
+    Triangle type & Isosceles (1) \newline Scalene (2) \newline Equialteral(3) & N/A \\
+    \hline
+    Valid triangle & a + b \textgreater\ c (4) & a + b = c (7) \newline a + b \textless\ c (8) \\
+    \hline
+    Number of input arguemnts & 3 (5) & No arguments (9) \newline Less than 3 (10) \newline Greater than 3 (11) \\
+    \hline
+    Argument type & Positive integer (6) & Negative integer (12) \newline Non-integer (13) \newline Non-numeric (14) \\
+    \hline
+\end{tabularx}
+
+\subsection*{Q3}
+Refer to Q5 for the test cases. As seen in the test case table, for test case 13, we get an unexpected result when a + b = c. In reality, this is not a possible triangle (as this would just be a line). However, the triangle program returns that this is an isosceles triangle. This may be because the program doesn't check the edge case where a + b = c when determining if the triangle is valid.
+
+\subsection*{Q4}
+The test method employed here (partition testing) was able to effectively find an error in the program. There were significantly less test cases than dirty testing/error guessing as we only checked equivalence classes. However, since we are doing \B lack-box testing and don't know the inner workings of the program, there may be unknown behavior that might be uncovered via other testing methods such as error guessing. 
+
+\subsection*{Q5}
+Test case table. The rows highlighted in red represent test cases that failed.
+\begin{tabularx}{\textwidth}{|s|b|z|z|z|b|b|}
+    \hline
+    \textbf{TestID} & \textbf{Input Desc.} & \textbf{a} & \textbf{b} & \textbf{c} & \textbf{Expected} & \textbf{Actual} \\
+    \hline 
+    1 & Isosceles & 5 & 5 & 3 & Isosceles & Isosceles \\
+    \hline
+    2 & Scalene & 13 & 9 & 14 & Scalene & Scalene \\
+    \hline
+    3 & Equilateral & 2 & 2 & 2 & Equilateral & Equilateral \\
+    \hline
+    4 & No arguments &  &  &  & ERROR: Not enough arguments & ERROR: Not enough arguments \\
+    \hline
+    5 & Not enough arguments & 1 &  &  & ERROR: Not enough arguments & ERROR: Not enough arguments \\
+    \hline
+    6 & Too many arguments & 1 & 1 & 1 1 & ERROR: Too many arguments & ERROR: Too many arguments \\
+    \hline
+    7 & Argument with one negative & -1 & 1 & 1 & ERROR: Invalid argument - non positive value & ERROR: Invalid argument - non positive value \\
+    \hline
+    8 & Argument with two negatives & -1 & -1 & 1 & ERROR: Invalid argument - non positive value & ERROR: Invalid argument - non positive value \\
+    \hline
+    9 & Argument with three negatives & -1 & -1 & -1 & ERROR: Invalid argument - non positive value & ERROR: Invalid argument - non positive value \\
+    \hline
+    10 & Argument with decimal & 1.1 & 1.1 & 1.1 & ERROR: Invalid argument - non integer & ERROR: Invalid argument - non integer \\
+    \hline
+    11 & Argument with zero & 0 & 1 & 1 & ERROR: Invalid argument - non positive value & ERROR: Invalid argument - non positive value \\
+    \hline
+    12 & All arguments zero & 0 & 0 & 0 & ERROR: Invalid argument - non positive value & ERROR: Invalid argument - non positive value \\
+    \hline
+    \rowcolor[HTML]{F4CCCC} 
+    {\color[HTML]{000000} 13} & {\color[HTML]{000000} a + b = c} & {\color[HTML]{000000} 3} & {\color[HTML]{000000} 3} & {\color[HTML]{000000} 6} & {\color[HTML]{000000} ERROR: Invalid triangle} & {\color[HTML]{000000} Isosceles} \\
+    \hline
+    14 & a + b \textless\ c & 3 & 3 & 7 & ERROR: Invalid triangle & ERROR: Invalid triangle \\
+    \hline
+    15 & String input & a & b & c & ERROR: Invalid argument - non integer & ERROR: Invalid argument - non integer \\
+    \hline
+ \end{tabularx}
+
+\section*{Conclusion}
+In this lab, we were introduced to three \B lack-box testing techniques: dirty testing, error guessing, and partition based testing. We performed dirty testing and error guessing on a simple calculator program and found some errors. We also performed partition based testing on a triangle program and found an error for an edge case. We saw that each technique has its advantages and disadvantages:
+\begin{itemize}
+    \item Dirty testing can handle unexpected inputs, but may require a lot of creativity, experience, and test cases.
+    \item Error guessing can help reveal random errors, but again requires creativity, experience, and lots of test cases.
+    \item Partition testing reduces the number of test cases, but without knowing the inner workings of the program, there may still be errors lurking.
+\end{itemize}
+
+\end{document}

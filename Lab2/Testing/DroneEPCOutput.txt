@@ -1,0 +1,66 @@
+Drone simulator, k = 100.
+drone> Success!
+drone> Success!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Success!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Success!
+drone> Success!
+drone> ERROR: Invald argument - negative value
+drone> Success!
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Success!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Success!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Success!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> Failure!
+drone> Failure!
+drone> ERROR: Invald argument - negative value
+drone> Failure!
+drone> 

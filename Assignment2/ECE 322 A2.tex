@@ -1,0 +1,139 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\usepackage{xurl}
+
+\mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+
+\newcolumntype{b}{X}
+\newcolumntype{s}{>{\hsize=.5\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.3cm}
+\setlength{\parindent}{1cm}
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\B enjamin Kong | 1573684}
+\lhead{\textit{ECE 322 Assignment 2}}
+\rfoot{Page \thepage}
+
+\begin{document} 
+\onehalfspacing
+
+\section*{Q1}
+Using \url{https://www.timeanddate.com/date/dateadded.html} (and setting the country to Italy). 
+
+As seen in the table below, when we use the Gregorian calendar and add one day to October 4, 1582, we obtain an incorrect date. This is because England did not adopt the Gregorian calendar until 1752. 10 days were excluded in order to synchronize the calendar with the lunar cycle, and this is why there is a difference between the expected and actual value.
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Input} & \textbf{Expected} & \textbf{Actual} \\
+    \hline
+    Add one day to October 4, 1582 & October 5, 1582 & October 15, 1582 \\
+    \hline
+    Add one day to September 2, 1752 & September 3, 1752 & September 3, 1752 \\
+    \hline
+ \end{tabularx}
+
+\section*{Q2}
+\subsection*{i) Exhaustive Testing}
+Exhaustive testing is a testing approach where all possible combinations of inputs are tested. Since the integers use a 128 bit representation, this means we need $2^{128} \times 2^{128} \times 2^{128} \times 2^{128} \times 2^{128} = 2^{5(128)}$ test cases to test every possible combination of inputs. 
+
+\subsection*{ii) Error Guessing}
+Error guessing is a testing approach where possible test cases are chosen that may cause an error in the code. It is an experience-based technique where a tester uses their experience to guess the problematic areas of the code. For example, for this program, we could test negative inputs, missing inputs, invalid inputs, a mixture of negative and positive inputs, etc.
+
+\begin{tabularx}{\textwidth}{|X|X|X|X|X|X|X|}
+    \hline
+    \textbf{Test \#} & \textbf{n1} & \textbf{n2} & \textbf{n3} & \textbf{n4} & \textbf{n5} & \textbf{Expected} \\
+    \hline
+    1 & 1 & 11 & 111 & 1111 & 11111 & 11111 \\
+    \hline
+    2 & -1 & -11 & -111 & -1111 & -11111 & -1 \\
+    \hline
+    3 & 0 & 55 &  &  &  & 55 \\
+    \hline
+    4 & 1a & x & 0 & 3 & 5 & Error \\
+    \hline
+    5 & -1 & 1 & -1 & 1 & -1 & 1 \\
+    \hline
+    6 & 0 & 0 & 0 & 0 & 0 & 0 \\
+    \hline
+ \end{tabularx}
+ 
+\section*{Q3}
+\subsection*{i)}
+Given $n$ inputs (variables) and $m$ equivalence classes for each variable, we have a total of $m^n$ equivalence classes. This implies there will be a maximum of $m^n$ test cases. We can reduce the number of test cases by using weak normal equivalence class testing. If we use weak normal equivalence class testing, we can cover many valid input equivalence classes with minimal test cases. Given $n=20$ and $m=10$, there are $10^{20}$ possible test cases.
+
+\subsection*{ii)}
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|X|}
+    \hline
+    \textbf{Input} & \textbf{Valid Equivalence Classes} & \textbf{Invalid Equivalence Classes} \\
+    \hline
+    Sensor 1 & (10, 25) (1) \newline [15, 50] (2) & [0, 10] (6) \newline (50, range1] (7) \\
+    \hline
+    Sensor 2 & [-1, 1] (3) \newline [4, 5] (4) & [-range2, -1) (8) \newline (1, 4) (9) \newline (5, range2] (10) \\
+    \hline
+    Control variable $s$ & $\{1, 2\}$ (5) & $\{3, 4, \ldots, s_\text{max}\} (11) $ \\
+    \hline
+ \end{tabularx}
+
+ Weak normal equivalence class testing: where a test case covers one and only one invalid equivalence class and as many possible valid equivalence classes. For example, (1,3,11), (1,8,5), \dots
+
+ Strong normal equivalence class testing: cover all equivalence classes (one of each possible combination of inputs). For example, (1,3,5), (1,3,11), \dots
+
+\section*{Q4}
+$W_1$, $W_2$, and $W_3$ are each circles, and $W_4$ is the space outside of those circles in $[0, 10] \times [0, 20]$. Our goal is to find the maximum value of $e$ such that none of the circles intersect. The circles have these centers:
+\begin{align}
+    &c_1 = (0, 0), \\
+    &c_2 = (1, 2), \\
+    &c_3 = (0.5, 2.5).
+\end{align}
+The distance between each circle is as follows:
+\begin{align}
+    &d_\text{1,2} = \sqrt{(1-0)^2+(2-0)^2} = \sqrt{5} \\
+    &d_\text{1,3} = \sqrt{(0.5-0)^2+(2.5-0)^2} = \sqrt{6.5} \\
+    &d_\text{2,3} = \sqrt{(0.5-1)^2+(2.5-2)^2} = \sqrt{0.5}.
+\end{align}
+Hence, the minimum radius before any of the circles touches is
+\begin{align}
+    r = \dfrac{\text{min}(d_\text{1,2}, d_\text{1,3}, d_\text{2,3})}{2} = \dfrac{\sqrt{0.5}}{2}.
+\end{align}
+Therefore,
+\begin{align}
+    e = \dfrac{\sqrt{0.5}}{2}.
+\end{align}
+
+\end{document}

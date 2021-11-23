@@ -1,0 +1,1 @@
+rg < DroneEPCOutput.txt '(F|S|E).*$' -o
