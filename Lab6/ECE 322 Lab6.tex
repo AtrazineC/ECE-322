@@ -1,0 +1,134 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic,colortbl} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\usepackage{xurl}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{xparse}
+
+\mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+\lstset{basicstyle=\ttfamily, keywordstyle=\rmfamily\bfseries}
+
+\definecolor{comment}{RGB}{140, 140, 140}
+\definecolor{text}{RGB}{0, 0, 0}
+\definecolor{string}{rgb}{0.58,0,0}
+\definecolor{variable}{RGB}{244, 63, 78}
+
+\lstdefinestyle{style}{
+    frame=L,
+    xleftmargin=\parindent,
+    belowcaptionskip=1\baselineskip,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=-10pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+
+\newcolumntype{q}{>{\hsize=.45\hsize}X}
+\newcolumntype{e}{>{\hsize=.35\hsize}X}
+\newcolumntype{s}{>{\hsize=.15\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.5cm}
+\setlength{\parindent}{0.5cm}
+
+\pgfplotsset{width=\textwidth-3cm,compat=newest}
+\usepgfplotslibrary{patchplots}
+\renewcommand{\thesection}{} % Make sections have no number
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+\newcommand{\nx}{$n\times1$}
+
+\title{\textbf{\Huge{
+    \begin{center}
+        ECE 322 Lab Report \#6
+    \end{center}
+}}}
+\author{
+\B enjamin Kong \\
+1573684 \\
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\thepage}
+\lhead{\textit{ECE 322 Lab Report \#6}}
+
+\begin{document} 
+\onehalfspacing
+
+\maketitle
+\newpage
+
+\section*{Part 1}
+\subsubsection*{Q1.1}
+Mutation testing is a form of white box testing that allows testers to check the effectiveness of unit tests. Mutation testing changes specific components|for example, equality operators and mathematical operators|of the code being tested in order to check if unit tests are able to detect the changes. Changes from mutation testing are meant to cause errors in the program. If a test that typically passes fails as a result of the code being mutated, then we say the mutant was killed.
+
+\subsubsection*{Q1.2}
+Mutation testing tests how well unit tests are able to detect errors in the program being tested. 
+
+\subsubsection*{Q1.3}
+There are three types of mutations:
+\begin{itemize}
+    \item Value mutations (boolean values can be swapped, variables can be altered),
+    \item Decision mutations (swapping equality operators, swapping mathematical operators), and
+    \item Statement mutations (deleting a statement, duplicating a statement).
+\end{itemize}
+
+\subsubsection*{Q1.4}
+In my opinion, mutation testing is effective. 100\% code coverage means that all code statements have been run through but doesn't mean the code has been tested effectively. Mutation testing allows testers to gauge how effective their unit tests are. Furthermore, mutation testing is typically not too difficult to set up. As a result, I think it is an effective tool for helping test a production type of system.
+
+\subsubsection*{Q1.5}
+Writing more robust test cases that are able to catch small changes to the code can help increase the chance of killing mutants. For example, writing tests that can detect if the correct equality sign is being used (for example, ``less than'' versus ``less than or equal to'') is a step in the right direction.
+
+\section*{Part 2}
+\subsubsection*{Q1.1}
+Regression testing is a type of testing that helps verify that a code change does not impact the existing functionality of the system. In its simplest form, regression testing involves re-running all test cases to ensure a change has not broken any test cases. For large systems, however, it may be infeasible to re-run all tests due to the high cost of running tests. In these cases, only test cases affected by changed code are re-run. 
+
+\subsubsection*{Q1.2}
+Regression testing is used to make sure errors do not appear in any parts of the system when a change is made. If a change is made to a system that unknowingly causes an error, regression testing should catch it.
+
+\subsubsection*{Q1.3}
+Regression testing is important because it makes sure bugs and errors are not introduced into a system. It is also beneficial for saving resources as only tests related to the changed code are re-run. It helps ensure software quality stays high throughout development.
+
+\subsubsection*{Q1.4}
+Regression testing is very effective because it creates a low-cost way of ensuring bugs are not introduced into a system. It verifies that a small change doesn't break or change the functionality of the system in an unintended way. 
+
+\end{document}

@@ -19,11 +19,11 @@ class ModuleB:
                     if (len(values) == 2):
                         data.append(Entry(values[0], values[1]))
 
-        except IOError as e:
-            print("Could not read file:{0.filename}".format(e))
         except FileNotFoundError:
             msg = "FileNotFoundError"
             print(msg)
+        except IOError as e:
+            print("Could not read file:{0.filename}".format(e))
 
         self._f.displayData(data)
         return data

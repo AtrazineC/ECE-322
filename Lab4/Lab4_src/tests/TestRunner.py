@@ -11,6 +11,7 @@ import TestModuleD
 import TestModuleE
 import TestModuleF
 import TestModuleG
+import TestAll
 
 # initialize the tests suite
 loader = unittest.TestLoader()
@@ -24,6 +25,7 @@ suite.addTests(loader.loadTestsFromModule(TestModuleD))
 suite.addTests(loader.loadTestsFromModule(TestModuleE))
 suite.addTests(loader.loadTestsFromModule(TestModuleF))
 suite.addTests(loader.loadTestsFromModule(TestModuleG))
+suite.addTests(loader.loadTestsFromModule(TestAll))
 
 # initialize a runner, pass it your suite and run it
 runner = unittest.TextTestRunner(verbosity=3)

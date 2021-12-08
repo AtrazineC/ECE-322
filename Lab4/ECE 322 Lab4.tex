@@ -1,7 +1,7 @@
 \documentclass[12pt, letterpaper, titlepage]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{geometry}
-\usepackage{color,graphicx,overpic} 
+\usepackage{color,graphicx,overpic,colortbl} 
 \usepackage{fancyhdr}
 \usepackage{amsmath,amsthm,amsfonts,amssymb}
 \usepackage{mathtools}
@@ -37,12 +37,15 @@
 \definecolor{string}{rgb}{0.58,0,0}
 \definecolor{variable}{RGB}{244, 63, 78}
 
-\lstdefinestyle{code_style}{
-    commentstyle=\color{comment},
-    keywordstyle=\color{variable},
-    numberstyle=\tiny\color{text},
-    stringstyle=\color{string},
-    basicstyle=\ttfamily\scriptsize\color{text},
+\lstdefinestyle{style}{
+    frame=L,
+    xleftmargin=\parindent,
+    belowcaptionskip=1\baselineskip,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
     breakatwhitespace=false,         
     breaklines=true,                 
     captionpos=b,                    
@@ -52,7 +55,7 @@
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,                  
-    tabsize=4
+    tabsize=4,
 }
 
 \newcolumntype{q}{>{\hsize=.45\hsize}X}
@@ -107,41 +110,120 @@ Integration testing is the logical extension of unit testing. There are two comm
     \end{itemize}
 \end{itemize}
 
-Usually, when integration testing is performed, we need to use stubs and drivers. In this lab, we will be creating mock objects which are essentially used as stubs in our integration tests.
+In this lab, we will be creating mock objects which are essentially used as stubs in our integration tests. Usually, when integration testing is performed, we need to use stubs and drivers.
 \begin{itemize}
     \item Stubs are used as a stand in for lower level modules that aren't currently being tested. Stubs return dummy values or makes an assertion so that the higher level modules can still run and be tested.
     \item Drivers are a piece of testing code that make it possible to call the submodule of an application by itself. Often, driver code requires stub setup and object initialization. 
 \end{itemize}
 
-We will be testing a simple database system that has seven modules, Module A to module F. We will be focusing on non-incremental testing (big bang integration).
+We will be testing a simple command line interface (CLI) database system that has seven modules, Module A to module F. We will be focusing on non-incremental testing (big bang integration). We will prepare a series of unit tests for each module and attempt to achieve full statement coverage using our tests, then attempt to test the entire program when it is assembled. We will also compile test results, explain failed test cases, and discuss possible fixes to make test cases pass.
 
 \section*{Task}
-For this lab, we tested the database application using the big bang testing technique. We created unit tests for each module A-F. Any time a module depended on another module, we mocked that module. The code for the tests have been included with the submission under \lstinline{Lab4_src/tests}. The table of tests and results is displayed below.
+For this lab, we tested the database application using the big bang testing technique. We created unit tests for each module A-F along with test cases for the entire program when it is assembled. For individual module tests, we mocked any dependencies on other modules. The code for the tests have been included with the submission under \lstinline{Lab4_src/tests}. The table of tests and results is displayed below with failed test cases highlighted in red.
 
 \footnotesize
 \begin{centering}
-\begin{tabularx}{\textwidth}{|q|X|q|e|e|X|e|}
-    \caption{Test cases for \lstinline{bisect.py}} \\ \hline
-    \textbf{Test ID} & \textbf{Description} & \textbf{func} & \textbf{x1} & \textbf{x2} & \textbf{Expected} & \textbf{Pass} \\ \hline
-    1 & Normal case & $x + 1$ & -10 & 10 & 0 & Y \\ \hline
+\begin{tabularx}{\textwidth}{|q|q|X|q|}
+    \caption{Test results resulting from the big bang testing technique.} \\ \hline
+    \textbf{Test ID} & \textbf{Module} & \textbf{Test Name} & \textbf{Pass} \\ \hline
+    1 & All & test\_display\_help & Yes \\ \hline
+    2 & All & test\_empty\_command & Yes \\ \hline
+    3 & All & test\_invalid\_command & Yes \\ \hline
+    4 & All & test\_help & Yes \\ \hline
+    5 & All & test\_exit & Yes \\ \hline
+    6 & All & test\_load & Yes \\ \hline
+    7 & All & test\_add & Yes \\ \hline
+    8 & All & test\_update & Yes \\ \hline
+    9 & All & test\_delete & Yes \\ \hline
+    10 & All & test\_sort & Yes \\ \hline
+    11 & All & test\_commands\_index\_error & Yes \\ \hline
+    12 & All & test\_commands\_no\_file & Yes \\ \hline
+    13 & A & test\_commands & Yes \\ \hline
+    14 & A & test\_commands\_index\_error & Yes \\ \hline
+    15 & A & test\_commands\_no\_file & Yes \\ \hline
+    16 & A & test\_display\_help & Yes \\ \hline
+    17 & A & test\_empty\_command & Yes \\ \hline
+    18 & A & test\_get\_data & Yes \\ \hline
+    19 & A & test\_invalid\_command & Yes \\ \hline
+    20 & A & test\_parse\_add & Yes \\ \hline
+    21 & A & test\_parse\_add\_no\_data & Yes \\ \hline
+    22 & A & test\_parse\_delete & Yes \\ \hline
+    23 & A & test\_parse\_delete\_no\_value & Yes \\ \hline
+    24 & A & test\_parse\_load & Yes \\ \hline
+    25 & A & test\_parse\_load\_no\_data & Yes \\ \hline
+    26 & A & test\_parse\_update & Yes \\ \hline
+    27 & A & test\_parse\_update\_no\_data & Yes \\ \hline
+    28 & A & test\_run\_exit & Yes \\ \hline
+    29 & A & test\_run\_sort & Yes \\ \hline
+    30 & A & test\_run\_sort\_no\_data & Yes \\ \hline
+    31 & A & test\_set\_data & Yes \\ \hline
+    32 & B & test\_get\_f & Yes \\ \hline
+    33 & B & test\_set\_f & Yes \\ \hline
+    \rowcolor[HTML]{FFB9B9} 34 & B & test\_file\_not\_found\_error & No \\ \hline
+    35 & B & test\_io\_error & Yes \\ \hline
+    36 & B & test\_load\_file & Yes \\ \hline
+    37 & C & test\_get\_f & Yes \\ \hline
+    38 & C & test\_set\_f & Yes \\ \hline
+    39 & C & test\_sort\_data & Yes \\ \hline
+    40 & D & test\_getters & Yes \\ \hline
+    41 & D & test\_setters & Yes \\ \hline
+    42 & D & test\_insert\_data & Yes \\ \hline
+    \rowcolor[HTML]{FFB9B9} 43 & D & test\_update\_data & No \\ \hline
+    \rowcolor[HTML]{FFB9B9} 44 & D & test\_delete\_data & No \\ \hline
+    45 & E & test\_run\_exit & Yes \\ \hline
+    46 & F & test\_display\_data & Yes \\ \hline
+    47 & G & test\_data\_update & Yes \\ \hline
+    48 & G & test\_data\_update\_file\_error & Yes \\ \hline
 \end{tabularx}
 \end{centering}
 \normalsize
-
 An image of the coverage report is provided below.
 \begin{figure}[H]
-    \caption{Coverage report of \lstinline{mybisect.py}. The only relevant value has been marked with a red arrow.}
-    % \includegraphics[width=\textwidth]{CodeCoverage1.png}
+    \caption{Coverage report resulting from the big bang testing technique.}
+    \includegraphics[width=0.9\textwidth]{CodeCoverage.png}
     \centering
 \end{figure}
+
+As seen from the previous table and image, we have 48 total tests. Of the 48 tests, we had 3 tests that failed. We also had close to 100\% code coverage for the actual code. The reason we could not achieve 100\% code coverage for \lstinline{ModuleB.py} is due to the fact that the error is impossible to trigger: the exception that triggers that statement is caught by an earlier statement. As a result, it is impossible to cover that line of code as it is unreachable. Next, we will explain the failed test cases. 
+
+\subsection*{Test 34}
+In this test, we attempted to trigger a \lstinline{FileNotFoundError} by having our program attempt to use a file that doesn't exist in the directory. However, as mentioned previously, the line of code that handles this specific exception is not reachable as the error is caught by an earlier exception that is a superclass of the \lstinline{FileNotFoundError} error. In order to fix this error, we could move this statement above the other statement like this:
+\begin{lstlisting}[language=Python, style=style]
+    except FileNotFoundError:
+        msg = "FileNotFoundError"
+        print(msg)
+    except IOError as e:
+        print("Could not read file:{0.filename}".format(e))
+\end{lstlisting}
+
+\subsection*{Test 43}
+In this test, we attempted to test updating a data entry. Due to the ambiguous nature of this function, the tester must make a judgement as to what it is supposed to do due to the lack of comments. Is it supposed to remove based on the printed list's index, or the index of an array where the first element is element 0? For my test, I assumed the former (i.e., attempting to remove index 2 would remove the 2nd item in the list). However, the test case fails in this case: attempting to remove the 2nd item ends up removing the 4th item (or the item at the 3rd index). In any case, this behavior is probably incorrect. A fix would be to change the indexing in the \lstinline{updateData} function in \lstinline{ModuleD.py} as follows:
+\begin{lstlisting}[language=Python, style=style]
+    data[index - 1] = Entry(name, number)
+    self.f.displayData(data)
+    self.g.updateData(filename, data);
+    return data
+\end{lstlisting}
+
+\subsection*{Test 44}
+In this test, we attempted to test removing a data entry. Similarly to test 43, due to the lack of comments, we are left guessing as to what the correct behavior of this function is. Again, we will assume we are supposed to remove based on the printed list's index. This test case fails, however, as attempting to remove the $i$th element actually removes the $i+1$th element. A fix would be to change the indexing in the \lstinline{deleteData} function in \lstinline{ModuleD.py} as follows:
+\begin{lstlisting}[language=Python, style=style]
+    del data[index - 1]
+    self.f.displayData(data)
+    self.g.updateData(filename, data)
+    return data
+\end{lstlisting}
+
+\subsection*{Discussion}
+As we saw, we were able to effectively uncover some errors in our program by using non-incremental (big bang) testing techniques. This type of testing can be somewhat effective for large projects, as it not only ensures individual modules are working but also makes sure that all modules are working harmoniously together. After all, it is possible for all individual modules of a system to be working while the program as a whole doesn't work at all. However, it may be impossible in practice for large projects due to the amount of tedious work required to get it set up. 
+
+We also saw that creating stubs was an effective way to test individual modules. We were able to mock the functionality of other modules so that we can test each module individually. 
 
 \section*{Conclusion}
 The purpose of this lab was to introduce integration white box testing techniques. We used Python and Python unittest unittest.mock to gain experience with integration testing.
 
-Integration testing is the logical extension of unit testing. There are two common approaches: non-incremental testing (big bang) where each module is tested independently, then the system is tested as a whole, and incremental testing where the set of previously tested modules are combined with the next module to be tested before running tests. There are two common methods of incremental testing: Bottom up where the lowest level modules are tested in isolation, then higher level modules are added incrementally, and top down where the highest level modules are tested in isolation (stubbing lower level modules), then lower level modules are added incrementally.
+Integration testing is the logical extension of unit testing. In this lab, we focused on non-incremental testing (big bang). In this type of testing, each module is tested independently, then the system is tested as a whole. Since modules usually depend on other modules, we use stubs to mock objects such that each module can be tested individually. Stubs are used as a stand in for lower level modules that aren't currently being tested. Stubs return dummy values or makes an assertion so that the higher level modules can still run and be tested. 
 
-Usually, when integration testing is performed, we need to use stubs and drivers. In this lab, we created mock objects which are essentially used as stubs in our integration tests. Stubs are used as a stand in for lower level modules that aren't currently being tested. Stubs return dummy values or makes an assertion so that the higher level modules can still run and be tested. Drivers are a piece of testing code that make it possible to call the submodule of an application by itself. Often, driver code requires stub setup and object initialization. 
-
-In the lab, we tested a simple database system that had seven modules, Module A to module F. We focused on non-incremental testing (big bang integration).
+In the lab, we tested a simple database system that had seven modules, Module A to module F. We focused on non-incremental testing (big bang integration). We first created unit tests for Modules A through F, then created unit tests to test the complete program. We were able to effectively uncover some errors in the program through testing: there were some errors when indexing the database for updates and deletion and there were areas of code that were unreachable. Through completing this lab, we saw that non-incremental (big bang) testing is an effective way to test a program, but comes at the cost of requiring a lot of tedious work to complete. 
 
 \end{document}

@@ -1,5 +1,4 @@
 import unittest
-from unittest.mock import Mock
 from unittest.mock import call
 from unittest.mock import patch
 
@@ -8,27 +7,23 @@ from modules.ModuleF import ModuleF
 
 class TestModuleF(unittest.TestCase):
     def setUp(self):
-        self.modF = Mock()
         self.modF = ModuleF()
 
-    @patch('builtins.print')
+    @patch("builtins.print")
     def test_display_data(self, mock_print):
-        data = [
-            'one',
-            'two',
-            'three'
-        ]
+        data = ["alpha", "beta", "gamma", "yeet"]
         self.modF.displayData(data)
-        calls = [
+
+        mock_print.assert_has_calls([
             call("Current Data:"),
             call("----------------------------------------------------------"),
-            call("1 one"),
-            call("2 two"),
-            call("3 three"),
+            call("1 alpha"),
+            call("2 beta"),
+            call("3 gamma"),
+            call("4 yeet"),
             call("----------------------------------------------------------")
-        ]
-        mock_print.assert_has_calls(calls)
+        ])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

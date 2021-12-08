@@ -12,79 +12,60 @@ class TestModuleD(unittest.TestCase):
         self.modD = ModuleD(self.modF, self.modG)
 
     def test_insert_data(self):
-        data = [
-            ('A', '1'),
-            ('B', '2'),
-            ('C', '3'),
-            ('D', '4'),
-        ]
-
-        result = self.modD.insertData(data, 'E', '5', 'fileName.txt')
-        self.assertEqual(len(result), 5)
-        self.modF.displayData.assert_called_once_with(data=data)
-        self.modG.updateData.assert_called_once_with('fileName.txt', data)
+        test = [Entry("curry", "C"), Entry("desert", "D"), Entry("alpha", "A"), Entry("ben", "B")]
+        data = self.modD.insertData(test, "E", "5", "file_test.txt")
+        self.assertEqual(len(data), 5)
+        self.modF.displayData.assert_called_once_with(data=test)
+        self.modG.updateData.assert_called_once_with("file_test.txt", test)
 
     def test_update_data(self):
-        data = [
-            Entry('A', '1'),
-            Entry('B', '2'),
-            Entry('C', '3'),
-            Entry('D', '4'),
-        ]
+        test = [Entry("curry", "C"), Entry("desert", "D"), Entry("alpha", "A"), Entry("ben", "B")]
+        expected = [("curry", "C"), ("changed", "changed2"), ("alpha", "A"), ("ben", "B")]
+        actual = self.modD.updateData(test, 2, "changed", "changed2", "file_test.txt")
+        # we want it to update desert (since it is listed as item 2) but it updates ben
 
-        expected = [
-            ('A', '1'),
-            ('B', '2'),
-            ('Z', '22'),
-            ('D', '4'),
-        ]
+        self.assertEqual(len(actual), 4)
 
-        result = self.modD.updateData(data, 2, 'Z', '22', 'fileName.txt')
-        self.assertEqual(len(result), 4)
-        for i in range(len(result)):
-            self.assertEqual(result[i].name, expected[i][0])
-            self.assertEqual(result[i].number, expected[i][1])
-        self.modF.displayData.assert_called_once_with(result)
-        self.modG.updateData.assert_called_once_with('fileName.txt', result)
+        for i in range(len(test)):
+            expected_element = expected[i]
+            actual_element = actual[i]
+            self.assertEqual(actual_element.name, expected_element[0])
+            self.assertEqual(actual_element.number, expected_element[1])
+
+        self.modG.updateData.assert_called_once_with("file_test.txt", actual)
+        self.modF.displayData.assert_called_once_with(actual)
 
     def test_delete_data(self):
-        data = [
-            Entry('A', '1'),
-            Entry('B', '2'),
-            Entry('C', '3'),
-            Entry('D', '4'),
-        ]
+        test = [Entry("curry", "C"), Entry("desert", "D"), Entry("alpha", "A"), Entry("ben", "B")]
+        expected = [("desert", "D"), ("alpha", "A"), ("ben", "B")]
+        actual = self.modD.deleteData(test, 1, "file_test.txt")
+        # we want it to delete curry (since it is listed as item 1) but it actually deletes desert (item 2)
 
-        expected = [
-            ('A', '1'),
-            ('B', '2'),
-            ('D', '4'),
-        ]
+        self.assertEqual(len(actual), 3)
 
-        result = self.modD.deleteData(data, 2, 'fileName.txt')
-        self.assertEqual(len(result), 3)
-        for i in range(len(result)):
-            self.assertEqual(result[i].name, expected[i][0])
-            self.assertEqual(result[i].number, expected[i][1])
-        self.modF.displayData.assert_called_once_with(result)
-        self.modG.updateData.assert_called_once_with('fileName.txt', result)
+        for i in range(len(actual)):
+            expected_element = expected[i]
+            actual_element = actual[i]
+            self.assertEqual(actual_element.name, expected_element[0])
+            self.assertEqual(actual_element.number, expected_element[1])
 
-    def test_f_getter(self):
-        self.modD._f = "Hello"
-        self.assertEqual(self.modD.f, "Hello")
+        self.modF.displayData.assert_called_once_with(actual)
+        self.modG.updateData.assert_called_once_with("file_test.txt", actual)
 
-    def test_f_setter(self):
-        self.modD.f = "Hello"
-        self.assertEqual(self.modD._f, "Hello")
+    def test_getters(self):
+        self.modD._f = "Get f"
+        self.assertEqual(self.modD.f, "Get f")
 
-    def test_g_getter(self):
-        self.modD._g = "Hello"
-        self.assertEqual(self.modD.g, "Hello")
+        self.modD._g = "Get g"
+        self.assertEqual(self.modD.g, "Get g")
 
-    def test_g_setter(self):
-        self.modD.g = "Hello"
-        self.assertEqual(self.modD._g, "Hello")
+    def test_setters(self):
+        self.modD.f = "Set f"
+        self.assertEqual(self.modD._f, "Set f")
+
+        self.modD.g = "Set g"
+        self.assertEqual(self.modD._g, "Set g")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

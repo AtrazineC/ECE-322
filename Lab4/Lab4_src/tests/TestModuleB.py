@@ -11,49 +11,42 @@ class TestModuleB(unittest.TestCase):
         self.modF = Mock()
         self.modB = ModuleB(self.modF)
 
-    @patch('builtins.open', new_callable=mock_open,
-           read_data="one, 1\n"
-                     "two, 2\n"
-                     "too, many, 2\n"
-                     "three, 3\n"
-                     "four\n"
-                     "five, 5\n"
-           )
+    @patch("builtins.print")
+    @patch("builtins.open")
+    def test_file_not_found_error(self, mock_file, mock_print):
+        error = IOError()
+        error.filename = "file_name.txt"
+        mock_file.side_effect = error
+        self.modB.loadFile("this_file_does_not_exist.txt")
+        mock_print.assert_called_once_with("FileNotFoundError")
+
+    @patch("builtins.print")
+    @patch("builtins.open")
+    def test_io_error(self, mock_file, mock_print):
+        error = IOError()
+        error.filename = "file_name.txt"
+        mock_file.side_effect = error
+        data = self.modB.loadFile("file_name.txt")
+        mock_file.assert_called_once_with("file_name.txt")
+        self.modF.displayData.assert_called_once_with(data)
+        mock_print.assert_called_once_with("Could not read file:file_name.txt")
+
+    @patch("builtins.open", new_callable=mock_open, read_data="x, d\nq, a\nthis, should, error\np, o\nerr\n")
     def test_load_file(self, mock_file):
-        data = self.modB.loadFile('fileName.txt')
-        self.assertEqual(4, len(data))
-        mock_file.assert_called_once_with('fileName.txt')
+        data = self.modB.loadFile("file_name.txt")
+        self.assertEqual(3, len(data))
+        mock_file.assert_called_once_with("file_name.txt")
         self.modF.displayData.assert_called_once_with(data)
         mock_file().__exit__.assert_called()
 
-    def test_fgetter(self):
-        self.modB._f = "Hello"
-        self.assertEqual(self.modB.f, "Hello")
+    def test_get_f(self):
+        self.modB._f = "yeet"
+        self.assertEqual(self.modB.f, "yeet")
 
-    def test_fsetter(self):
-        self.modB.f = "Hello"
-        self.assertEqual(self.modB._f, "Hello")
-
-    @patch('builtins.print')
-    @patch('builtins.open')
-    def test_io_error(self, mock_file, mock_print):
-        error = IOError()
-        error.filename = 'fileName.txt'
-        mock_file.side_effect = error
-        data = self.modB.loadFile('fileName.txt')
-        mock_file.assert_called_once_with('fileName.txt')
-        self.modF.displayData.assert_called_once_with(data)
-        mock_print.assert_called_once_with("Could not read file:fileName.txt")
-
-    @patch('builtins.print')
-    @patch('builtins.open')
-    def test_file_not_found_error(self, mock_file, mock_print):
-        error = IOError()
-        error.filename = 'fileName.txt'
-        mock_file.side_effect = error
-        data = self.modB.loadFile('file.txt')
-        mock_print.assert_called_once_with("FileNotFoundError")
+    def test_set_f(self):
+        self.modB.f = "yeet2"
+        self.assertEqual(self.modB._f, "yeet2")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

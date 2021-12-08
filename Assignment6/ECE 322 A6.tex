@@ -1,0 +1,190 @@
+\documentclass[12pt, letterpaper, titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\usepackage{color,graphicx,overpic} 
+\usepackage{fancyhdr}
+\usepackage{amsmath,amsthm,amsfonts,amssymb}
+\usepackage{mathtools}
+\usepackage{hyperref}
+\usepackage{multicol}
+\usepackage{array}
+\usepackage{float}
+\usepackage{blindtext}
+\usepackage{longtable}
+\usepackage{scrextend}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[framemethod=tikz]{mdframed}
+\usepackage{calc}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage[normalem]{ulem}
+\usepackage{tabularx}
+\usepackage{mathrsfs}
+\usepackage{bookmark}
+\usepackage{booktabs}
+\usepackage{apple_emoji}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{ltablex}
+\usepackage{textcomp}
+
+% \mathtoolsset{showonlyrefs}  
+\allowdisplaybreaks
+\lstset{basicstyle=\ttfamily, keywordstyle=\rmfamily\bfseries}
+
+\definecolor{comment}{RGB}{140, 140, 140}
+\definecolor{text}{RGB}{0, 0, 0}
+\definecolor{string}{rgb}{0.58,0,0}
+\definecolor{variable}{RGB}{244, 63, 78}
+
+\lstdefinestyle{customc}{
+    frame=L,
+    xleftmargin=\parindent,
+    belowcaptionskip=1\baselineskip,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\bfseries\color{green!40!black},
+    commentstyle=\itshape\color{purple!40!black},
+    identifierstyle=\color{blue},
+    stringstyle=\color{orange},
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=-10pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4,
+}
+
+\lstset{escapechar=@,style=customc}
+
+\newcolumntype{s}{>{\hsize=.25\hsize}X}
+\newcolumntype{a}{>{\hsize=.5\hsize}X}
+
+\definecolor{mycolor}{rgb}{0, 0, 0}
+
+\geometry{top=2.54cm, left=2.54cm, right=2.54cm, bottom=2.54cm}
+\setlength{\headheight}{20pt}
+\setlength{\parskip}{0.3cm}
+\setlength{\parindent}{1cm}
+
+\newcommand{\B}{\includegraphics[height=1.5em, valign=B, raise=-0.2em]{BigB.png}} 
+
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\B enjamin Kong | 1573684}
+\lhead{\textit{ECE 322 Assignment 6}}
+\rfoot{Page \thepage}
+
+\begin{document} 
+\onehalfspacing
+
+\section*{Q1}
+\subsection*{a)}
+In this case, the bottom up approach would be the best choice. 
+\begin{itemize}
+    \item Due to the large number of submodules, it would be better to test that these individual modules are working before testing the higher level modules. This would allow more meaningful testing of the higher level modules and allow critical functionality to be tested first.
+    \item The critical functionality is likely at the lowest level. By using the bottom up approach, the critical functionality will be tested multiple times when it is used at higher levels.
+    \item Tests will be easier to create and verify. If we were to consider top-down testing, creating stubs for so many different submodules would be very difficult. 
+    \item In this system, it seems like an object-oriented design methodology was used. In general, the bottom up approach is good at dealing with object-oriented programming.
+\end{itemize}
+
+\subsection*{b)}
+We want to choose the layer that will minimize the number of stubs and drivers. Below is a table for the number of stubs and drivers required when a layer is selected as the target layer (discounting the first and last layers). Let ``TD'' denote ``top down'' and ``BU'' denote ``bottom up.''
+
+\begin{table}[H]
+\begin{tabularx}{\textwidth}{cccccc}
+    \toprule
+    \textbf{Layer} & \textbf{TD Stubs} & \textbf{TD Drivers} & \textbf{BU Stubs} & \textbf{BU Drivers} & \textbf{Total} \\
+    \midrule
+    2   & 7   & 1   & 0   & 20  & 28  \\
+    3   & 13  & 1   & 0   & 14  & 28  \\
+    4   & 18  & 1   & 0   & 11  & 30  \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+We see that layer 2 and 3 result in the least number of total stubs/drivers. To break the tie, we use the fact that, in general, stubs are harder to set up than drivers. As such, we pick the layer with less stubs: layer 2.
+
+\section*{Q2}
+If $G$ is the control flow graph of a program, the McCabe complexity measure states
+\begin{equation}
+    v = e - n + 2
+\end{equation}
+where $v$ is the number of linearly independent paths in $G$ (and also the cyclomatic complexity), $e$ is the number of edges, and $n$ is the number of nodes. As such, we find the cyclomatic complexity of the modules are 
+\begin{align}
+    v(G_A) &= (8) - (7) + 2 = 3, \\
+    v(G_B) &= (4) - (4) + 2 = 2, \\
+    v(G_C) &= (6) - (6) + 2 = 2, \\
+    v(G_D) &= (7) - (6) + 2 = 3, \\
+    v(G_E) &= (6) - (6) + 2 = 2, \\
+    v(G_F) &= (8) - (7) + 2 = 3, \\
+    v(G_G) &= (4) - (5) + 2 = 1 \text{, and} \\
+    v(G_H) &= (5) - (5) + 2 = 2. \\
+\end{align}
+By applying design reduction, we find the integration complexity of the modules are
+\begin{align}
+    iv(G_A) &= 3, \\
+    iv(G_B) &= 1, \\
+    iv(G_C) &= 2, \\
+    iv(G_D) &= 1, \\
+    iv(G_E) &= 2, \\
+    iv(G_F) &= 2, \\
+    iv(G_G) &= 1 \text{, and} \\
+    iv(G_H) &= 1. \\
+\end{align}
+We can calculate the complexity of integration testing $S$ via
+\begin{align}
+    S &= \sum_{i=1}^n iv(G_i) - n + 1
+\end{align}
+where $n$ is the number of modules. Using this, we have
+\begin{align}
+    S &= (3) + (1) + (2) + (1) + (2) + (2) + (1) + (1) - (8) + 1 \\
+    &= 6.
+\end{align}
+This means we have 6 independent integration tests. The independent integration tests are
+\begin{enumerate}
+    \item $A \longrightarrow B \longleftarrow A$,
+    \item $A \longrightarrow C \longleftarrow A$,
+    \item $A \longrightarrow C \longrightarrow D \longleftarrow C \longleftarrow A$,
+    \item $A \longrightarrow E \longrightarrow A$,
+    \item $A \longrightarrow E \longrightarrow F \longleftarrow E \longleftarrow A$, and
+    \item $A \longrightarrow E \longrightarrow F \longrightarrow G \longrightarrow H \longleftarrow G \longleftarrow F \longleftarrow E \longleftarrow A$.
+\end{enumerate}
+
+\section*{Q3}
+Let $x$ be the input array. Assume any operations on $x$ apply to all elements of $x$ (for example, $x + 2$ would mean incrementing all values in $x$ by 2). Two metamorphic relations are
+\begin{equation}
+    R_1 = \left\lbrace( 
+        x,\ \text{product}(x),\ C\
+        \mid\
+        C \in \Re,\ C^{\text{len}(x)}\text{product}(x)) = \text{product}(Cx)
+    )\right\rbrace
+\end{equation}
+and
+\begin{equation}
+    R_2 = \left\lbrace( 
+        x,\ \text{product}(x),\
+        \mid\
+        \text{product}(x) = \text{product}(x\text{.reverse()})
+    )\right\rbrace.
+\end{equation}
+
+% \newpage
+% Let $x = a_0, a_1, \ldots, a_n$ be the input array where $n > 10$. Let $C$ be some integer such that $0 < C < n$. Then let $x_1$ and $x_2$ be subsets of $x$ such that 
+% \begin{align}
+%     x_1 &= a_0, a_1, \ldots, a_C \\
+%     x_2 &= a_{C+1}, a_{C+2}, \ldots, a_n
+% \end{align}
+% Then the following is a metamorphic relation:
+% \begin{align}
+%     R = \lbrace( 
+%         x,\ x_1,\ x_2,\ &\text{product}(x),\ \text{product}(x_1),\ \text{product}(x_2),\\
+%         \mid\
+%         &\text{product}(x) = \text{product}(x_1)\text{product}(x_2)
+%     )\rbrace
+% \end{align}
+
+\end{document}

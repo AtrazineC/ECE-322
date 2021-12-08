@@ -1,0 +1,5 @@
+curry,C
+desert,D
+alpha,A
+ben,B
+E,5
